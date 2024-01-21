@@ -6,6 +6,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+#include<ctype.h>
+#define ctoi(c) ((c) - '0')
 
 typedef unsigned long long int ull;
 typedef long long int ll;
@@ -37,11 +39,15 @@ typedef stacknode* stack;
 void init_dll(dll* newlist);
 node* init_node(int data);
 void append(dll* list, int data);
+void addFront(dll* list, int data);
 void printNum(dll* list);
 void removeNode(dll* list);
+void removeAtEnd(dll* list);
 void destroy(dll* list);
 int lenl(dll* list);
 int lenr(dll* list);
+int len(dll* list);
+void copy(dll* src, dll* dest);
 
 //Stack Functions->
 bool isEmpty(stack* s);

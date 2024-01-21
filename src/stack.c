@@ -16,6 +16,10 @@ void* pop(stack* s){
     return i;
 }
 
+void* peek(stack* s){
+    
+}
+
 void push(stack* s, void* d){
     stack temp = malloc(sizeof(stacknode));
     if(!temp){
