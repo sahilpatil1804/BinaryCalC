@@ -2,6 +2,8 @@
 #include"operations.h"
 #include"list.c"
 
+dll* add(dll* list1, dll* list2);
+dll* subtract(dll* list1, dll* list2);
 void addZeroes(dll* list, int x){
     if(x==0) return;
     while(x--){
@@ -70,6 +72,10 @@ dll* add(dll* list1, dll* list2){
     dll* res = malloc(sizeof(dll));
     init_dll(res);
     if(list1->isNegative && list2->isNegative) res->isNegative = true;
+    else if(list1->isNegative || list2->isNegative){
+        if(list1->isNegative) return subtract(list2, list1);
+        else if(list2->isNegative) return subtract(list1, list2);
+    }
     if(lenr(list1) > lenr(list2)){
         addZeroes(list2, lenr(list1) - lenr(list2));
     }
@@ -147,7 +153,7 @@ dll* subtract(dll* list1, dll* list2){
     return res;
 }
 
-void multiply(dll* list1, dll* list2){
+dll* multiply(dll* list1, dll* list2){
     dll* res = malloc(sizeof(dll));
     dll* res2;
     init_dll(res);
@@ -156,8 +162,9 @@ void multiply(dll* list1, dll* list2){
     trimZeroes(list2);
     dll* num = malloc(sizeof(dll));
     copy(list1, num);
+    //printNum(num);
     num->isNegative = false;
-    printNum(num);
+    //printNum(num);
     node* temp = list2->tail;
     while(temp){
         int i = temp->data;
@@ -165,7 +172,7 @@ void multiply(dll* list1, dll* list2){
             res2 = res;
             res = add(res, num);
             destroy(res2);
-            printNum(res);
+            //printNum(res);
         }
         append(num, 0);
         if(num->dec){
@@ -179,11 +186,24 @@ void multiply(dll* list1, dll* list2){
             res->isNegative = false;
         }
     }
-    printNum(res);
-    return;
+    int daa = lenr(list2);
+    if(!res->dec){
+        addZeroes(res, 1);
+        res->dec = res->tail;
+    }
+    while(daa > 0){
+        daa--;
+        if(res->dec) res->dec = res->dec->prev;
+        else{
+            addFront(res, 0);
+            res->dec = res->dec->prev;
+        }
+    }
+    if(res->dec == res->head) addFront(res, 0);
+    return res;
 }
 
-int main(){
+/*int main(){
     dll* list1 = malloc(sizeof(dll));
     dll* list2 = malloc(sizeof(dll));
     dll* list3;
@@ -192,13 +212,29 @@ int main(){
     addZeroes(list1, 3);
     append(list1, 2);
     append(list1, 3);
+    append(list1, 3);
+    append(list1, 5);
     addZeroes(list1, 2);
+    append(list1, 9);
     list1->isNegative = true;
-    append(list2, 0);
     append(list2, 3);
+    append(list2, 5);
+    addZeroes(list2, 5);
+    list2->dec = list2->tail;
+    append(list2, 3);
+    append(list2, 3);
+    list2->isNegative = false;
+    list3 = multiply(list1, list2);
     printNum(list1);
     printNum(list2);
-    multiply(list1, list2);
     printNum(list3);
+    // addZeroes(list1, 2);
+    // list1->isNegative = true;
+    // append(list2, 0);
+    // append(list2, 3);
+    // printNum(list1);
+    // printNum(list2);
+    // multiply(list1, list2);
+    // printNum(list3);
     return 0;
-}
+}*/
